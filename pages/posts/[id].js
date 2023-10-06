@@ -3,11 +3,10 @@ import Head from "next/head";
 
 import Date from "../../components/date";
 import utilStyles from "../../styles/utils.module.css";
-import { API_URL, TOKEN } from "../../consts";
 
 export async function getStaticProps({ params }) {
-  const response = await fetch(`${API_URL}/posts/${params.id}`, {
-    headers: { Authorization: TOKEN },
+  const response = await fetch(`${process.env.API_URL}/posts/${params.id}`, {
+    headers: { Authorization: process.env.TOKEN },
   });
 
   const postData = await response.json();
@@ -20,8 +19,8 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const response = await fetch(`${API_URL}/posts`, {
-    headers: { Authorization: TOKEN },
+  const response = await fetch(`${process.env.API_URL}/posts`, {
+    headers: { Authorization: process.env.TOKEN },
   });
 
   const posts = await response.json();
@@ -36,20 +35,20 @@ export async function getStaticPaths() {
 
 export default function Post({
   postData: {
-    attributes: { Title, Content, publishedAt },
+    attributes: { title, content, publishedAt },
   },
 }) {
   return (
     <Layout>
       <Head>
-        <title>{Title}</title>
+        <title>{title}</title>
       </Head>
       <article>
-        <h1 className={utilStyles.headingXl}>{Title}</h1>
+        <h1 className={utilStyles.headingXl}>{title}</h1>
         <div className={utilStyles.lightText}>
           <Date dateString={publishedAt} />
         </div>
-        <div>{Content}</div>
+        <div>{content}</div>
       </article>
     </Layout>
   );
