@@ -7,7 +7,7 @@ import Date from "../components/date";
 
 export async function getStaticProps() {
   const response = await fetch(`${process.env.API_URL}/posts`, {
-    headers: { Authorization: process.envTOKEN },
+    headers: { Authorization: process.env.TOKEN },
   });
 
   const posts = await response.json();
